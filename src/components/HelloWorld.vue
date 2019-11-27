@@ -1,57 +1,107 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-container>
+    <v-layout text-center wrap>
+      <v-flex xs12>
+        <v-row>
+          <v-col sm="2">
+            <v-text-field label="Добавить" single-line solo v-model="value"></v-text-field>
+          </v-col>
+          <v-col sm="1">
+            <div class="my-1">
+              <v-btn large color="primary" @click="Add">Добавить</v-btn>
+            </div>
+          </v-col>
+          <v-col sm="1">
+            <div class="my-1">
+              <v-btn large color="primary" @click="Delete">Удалить</v-btn>
+            </div>
+          </v-col>
+          <v-col sm="1">
+            <div class="my-1">
+              <v-btn large color="primary">Найти</v-btn>
+            </div>
+          </v-col>
+          <!-- <v-col sm="2">
+            <v-text-field label="Удалить" single-line solo></v-text-field>
+          </v-col>
+          <v-col sm="2">
+            <v-text-field label="Поиск" single-line solo></v-text-field>
+          </v-col>
+          <v-col sm="2">
+            <input type="file" @change="loadFile">
+          </v-col>
+          <v-col sm="2">
+            <v-text-field :label="text" v-model="text" single-line solo></v-text-field>
+            {{text}}
+          </v-col> -->
+        </v-row>
+      </v-flex>
+    </v-layout>
+    <v-flex xs7>
+      <v-layout>
+        <v-row>
+      <v-col v-for="(item,i) in queue" :key="i" sm="1">
+        <v-card
+          class="mx-auto"
+          max-width="120"
+          outlined
+          elevation="5"
+        >
+        <v-card-text @dblclick="Delete">
+          {{item}}
+        </v-card-text>
+        </v-card>
+      </v-col>
+      </v-row>
+      </v-layout>
+    </v-flex>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: "HelloWorld",
+
+  data: () => ({
+    value: '',
+    queue : [11,2,3,4,5,6,7,8],
+    text: [],
+    text1:[1,2,3,4,5,6],
+  }),
+  methods: {
+    Add(){
+      if(this.value!='')
+        this.queue.push(this.value)
+        console.log(this.queue.indexOf())
+
+
+    },
+    Delete(){
+      this.queue.shift()
+    },
+    Found(){
+
+    },
+
+  //   loadFile(e) {
+  //   console.log(e.target.files)
+  //   const reader = new FileReader()
+  //   reader.onload =  () => {
+  //     console.log(reader.result)
+  //     this.text = reader.result.split('\n').map( line => {
+  //       return line.split(',')
+  //   })
+  //   reader.readAsText(e.target.files[0])
+  //     console.log(this.text)
+  //   }
+  // }
+  loadFile(ev){
+    const file = ev.target.files[0]
+    const reader = new FileReader()
+
+    reader.onload = e => this.text=e.target.result
+    reader.readAsText(file)
   }
 }
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
