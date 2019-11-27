@@ -18,7 +18,12 @@
           </v-col>
           <v-col sm="1">
             <div class="my-1">
-              <v-btn large color="primary">Найти</v-btn>
+              <v-btn large color="primary" @click="Found">Найти</v-btn>
+            </div>
+          </v-col>
+          <v-col sm="2">
+            <div class="my-1">
+              <input type="file" @change="loadFile">
             </div>
           </v-col>
           <!-- <v-col sm="2">
@@ -37,50 +42,126 @@
         </v-row>
       </v-flex>
     </v-layout>
-    <v-flex xs7>
-      <v-layout>
-        <v-row>
-      <v-col v-for="(item,i) in queue" :key="i" sm="1">
-        <v-card
-          class="mx-auto"
-          max-width="120"
+    <v-flex xs12>
+      <v-layout justify-center text-center >
+      <v-row>
+        <v-col v-for="(item,i) in queue" :key="i" sm="1" lg="1" md="1" xl="1">
+          <v-card
+          class=""
+          max-width="70"
           outlined
           elevation="5"
-        >
-        <v-card-text @dblclick="Delete">
-          {{item}}
-        </v-card-text>
-        </v-card>
+          >
+            <v-card-text @dblclick="Delete">
+              {{item}}
+            </v-card-text>
+          </v-card>
       </v-col>
       </v-row>
+      </v-layout>
+    </v-flex>
+    <v-flex xs12>
+      <v-layout justify-center text-center>
+        <v-row>
+          <v-col sm="2">
+            <div class="my-1">
+              <v-text-field label="Поле состояния" single-line solo v-model="state"></v-text-field>
+            </div>
+          </v-col>
+        </v-row>
       </v-layout>
     </v-flex>
   </v-container>
 </template>
 
 <script>
+import {Queue} from './index.js'
 export default {
   name: "HelloWorld",
 
   data: () => ({
     value: '',
-    queue : [11,2,3,4,5,6,7,8],
+    queue : [],
     text: [],
     text1:[1,2,3,4,5,6],
+    sort:false,
+    val:true,
+    state:'',
+    Queue:{
+      Node(data) { 
+          this.node = data; 
+          this.next = null; 
+      },
+      // LinkedList: {
+      //   Init(list){
+      //   this.head = list || null
+      //   },
+      //   insert = function(data) { 
+  
+      //     // Check if the linked list is empty 
+      //     // so insert first node and lead head 
+      //     // points to generic node 
+      //     if (this.head === null) 
+      //         this.head = new Node(data); 
+  
+      //     else { 
+  
+      //         // If linked list is not empty, insert the node 
+      //         // at the end of the linked list 
+      //         let list = this.head; 
+      //         while (list.next) { 
+      //             list = list.next; 
+      //         } 
+  
+      //         // Now here list pointer points to last 
+      //         // node let’s insert out new node in it 
+      //         list.next = new Node(data) 
+      //     } 
+      //   } 
+      // },
+    }
   }),
   methods: {
     Add(){
-      if(this.value!='')
+      if(this.value!=''){
         this.queue.push(this.value)
         console.log(this.queue.indexOf())
-
-
+      }
+      else{
+        console.log('Введите значение')
+      }
     },
     Delete(){
-      this.queue.shift()
+      if(this.queue.length!=0)
+        this.queue.shift()
+      else{
+        console.log('Удалять нечего, очередь пуста')
+      }
+    },
+    Sort(){
+
     },
     Found(){
+      if(this.queue.length!=0){
+        if(this.sort){
 
+        }
+        else{
+          for (let i = 0; i < this.queue.length; i++) {
+            if(this.queue[i]==this.value){
+              console.log('Нашёл')
+              this.val=false
+              break
+            }
+          }
+            if(this.val==true){
+              console.log('Не нашёл')
+          }
+        }
+      }
+      else{
+        console.log('Пустая очередь')
+      }
     },
 
   //   loadFile(e) {
@@ -98,10 +179,15 @@ export default {
   loadFile(ev){
     const file = ev.target.files[0]
     const reader = new FileReader()
-
-    reader.onload = e => this.text=e.target.result
+    reader.onload = e => this.queue=e.target.result.split(',')
     reader.readAsText(file)
-  }
+    console.log(this.queue)
+  },
+  // Create Node of LinkedList 
+  
+    
+  // To initialize a linkedlist 
+
 }
-};
+}
 </script>
