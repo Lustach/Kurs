@@ -2,13 +2,72 @@
 export class Queue {
     constructor(){
         this.queue = new LinkedList()
+        this.forPrint=[]
+        this.forSorting=false
     }
-    enqueue(){
-        return this.queue.add(element)
+    enqueue(element){
+        console.log(this.queue,'queue')
+        this.queue.add(element)
+        this.forPrint.push(element)
     }
     dequeue(){
-        return this.queue.size_of_list()
-        return this.queue.removeFrom(this.queue.size)
+        console.log(this.queue.size_of_list(),'sheeeeeeeeeeeet')
+        console.log(this.queue,'this')
+        return this.queue.removeFrom(0)
+    }
+    sorting(){
+        this.forPrint=this.mergeSort(this.forPrint)
+        this.forSorting=true
+    }
+    mergeSort (unsortedArray) {
+        // No need to sort the array if the array only has one element or empty
+        if (unsortedArray.length <= 1) {
+          return unsortedArray;
+        }
+        // In order to divide the array in half, we need to figure out the middle
+        const middle = Math.floor(unsortedArray.length / 2);
+      
+        // This is where we will be dividing the array into left and right
+        const left = unsortedArray.slice(0, middle);
+        const right = unsortedArray.slice(middle);
+      
+        // Using recursion to combine the left and right
+        return this.merge(
+          this.mergeSort(left), this.mergeSort(right)
+        );
+    }
+    merge (left, right) {
+        let resultArray = [], leftIndex = 0, rightIndex = 0;
+      
+        // We will concatenate values into the resultArray in order
+        while (leftIndex < left.length && rightIndex < right.length) {
+          if (left[leftIndex] < right[rightIndex]) {
+            resultArray.push(left[leftIndex]);
+            leftIndex++; // move left array cursor
+          } else {
+            resultArray.push(right[rightIndex]);
+            rightIndex++; // move right array cursor
+          }
+        }
+      
+        // We need to concat here because there will be one element remaining
+        // from either left OR the right
+        return resultArray
+                .concat(left.slice(leftIndex))
+                .concat(right.slice(rightIndex));
+    }
+    BinarySearch(t,A)       // t - искомый элемент,
+    {                                // A - упорядоченный массив, в котором ищем.
+    let i = 0, j = A.length, k; 
+                                 
+    while (i < j)                
+    {  k = Math.floor((i+j)/2);
+       if (t <= A[k]) j = k;
+       else i = k+1;
+    }
+   
+    if (A[ i ] === t) return i;     // На выходе индекс искомого элемента.
+    else return -1;                 // Если искомого элемента нет в массиве, то -1.
     }
     front(){
         if(this.queue.size_of_list()!==0) 
@@ -17,12 +76,20 @@ export class Queue {
             console.log('16')
         }
     }
+    forCicle(){
+        console.log(this.forPrint,'forPrint(array)0')
+        this.forPrint = this.queue.printList(this.forPrint)
+        console.log(this.queue.printList(this.forPrint),'afterprintList')
+    }
     // isEmpty(){
     //     this.
     // }
     // printQueue(){
 
     // }
+    getAll(){
+        return this.queue
+    }
     getSize(){
         return this.queue.size_of_list()
     }
@@ -30,7 +97,10 @@ export class Queue {
         return this.queue.indexOf(value)
     }
     sort(){//????????????????
-        return this.queue = this.queue.mergeSort(this.queue)
+        console.log('zashel')
+        this.queue.mergeSort(this.queue)
+        // this.queue.printList(this.forPrint)
+        // this.forSorting=true
     }
 }
 // User defined class node 
@@ -46,7 +116,8 @@ export class LinkedList{
     constructor() { 
         this.head = null; 
         this.size = 0;
-        this.tail = null; 
+        this.tail = null;
+        this.Test = []
     }
     // adds an element at the end 
 // of list 
@@ -71,8 +142,9 @@ export class LinkedList{
             // add node 
             current.next = node;
             this.tail=current.next;
-        } 
-        this.size++; 
+        }
+        console.log(this.tail,'tail') 
+        this.size++;
     } 
     removeFrom(index) 
     { 
@@ -156,20 +228,22 @@ export class LinkedList{
             console.log(this.size);
             return this.size
         }
-        printList() 
-        { 
-            let curr = this.head; 
-            let str = ""; 
-            while (curr) { 
-                str += curr.element + " "; 
-                curr = curr.next; 
-            } 
-            console.log(str); 
-        }
-        mergeSort = function(list) { 
+        // printList() 
+        // { 
+        //     let curr = this.head; 
+        //     let str = ""; 
+        //     while (curr) { 
+        //         str += curr.element + " "; 
+        //         curr = curr.next; 
+        //     } 
+        //     console.log(str); 
+        // }
+        mergeSort(list) { 
   
-            if (list.next === null) 
+            if (list.next === null){ 
+                console.log('her')
                 return list; 
+            }
     
             let count = 0; 
             let countList = list 
@@ -204,7 +278,7 @@ export class LinkedList{
             return this._mergeSort(this.mergeSort(leftPart), 
                                    this.mergeSort(rightPart.head)) 
     }
-    _mergeSort = function(left, right) { 
+    _mergeSort(left, right) {
     
         // Create a new empty linked list 
         let result = new LinkedList() 
@@ -253,5 +327,26 @@ export class LinkedList{
 
         // Result is  the new sorted linked list 
         return result.head; 
+    } 
+    printList(arr) 
+    { 
+        // let curr = this.head; 
+        // while (curr) {
+        //     // arr=[]
+        //     arr.push(parseInt(curr.element)); 
+        //     curr = curr.next; 
+        // }
+        // console.log(arr); 
+        // return arr
+        // arr.push()
+        if (this.head === null) 
+            return null;
+        let list = this.head;
+        arr=[]
+        while (list) { 
+            arr.push(list.node)
+            console.log(arr,'arr')
+            console.log(list.node,'list.node')
+        }
     } 
 }
