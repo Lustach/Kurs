@@ -130,20 +130,24 @@ export class LinkedList{
         // element and make it head 
         if (this.head == null){
             this.head = node;
-            this.tail = this.head;
+            this.tail = node;
         }
         else { 
-            current = this.head; 
-            // iterate to the end of the 
-            // list 
-            while (current.next) { 
-                current = current.next; 
-            } 
-            // add node 
-            current.next = node;
-            this.tail=current.next;
+            // current = this.head; 
+            // // iterate to the end of the 
+            // // list 
+            // while (current.next) { 
+            //     current = current.next; 
+            // } 
+            // // add node 
+            // current.next = node;
+            // this.tail=current.next;
+
+            current=this.tail
+            current.next=node
+            this.tail=node
         }
-        console.log(this.tail,'tail') 
+        console.log(this.tail,'TAIL') 
         this.size++;
     } 
     removeFrom(index) 
