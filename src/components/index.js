@@ -133,15 +133,7 @@ export class LinkedList{
             this.tail = node;
         }
         else { 
-            // current = this.head; 
-            // // iterate to the end of the 
-            // // list 
-            // while (current.next) { 
-            //     current = current.next; 
-            // } 
-            // // add node 
-            // current.next = node;
-            // this.tail=current.next;
+
 
             current=this.tail
             current.next=node
@@ -232,16 +224,7 @@ export class LinkedList{
             console.log(this.size);
             return this.size
         }
-        // printList() 
-        // { 
-        //     let curr = this.head; 
-        //     let str = ""; 
-        //     while (curr) { 
-        //         str += curr.element + " "; 
-        //         curr = curr.next; 
-        //     } 
-        //     console.log(str); 
-        // }
+
         mergeSort(list) { 
   
             if (list.next === null){ 
